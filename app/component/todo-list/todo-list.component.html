@@ -1,0 +1,59 @@
+<div class="todo-container">
+  <h1 class="text-center">My Todos</h1>
+
+  <form #todoForm="ngForm" (ngSubmit)="addTodo()"class="text-center">
+    <mat-form-field appearance="fill" >
+      <input matInput name="title" [(ngModel)]="newTodo.title" required placeholder="Title *" >
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary" type="submit" class="m-3">Add Todo</button>
+  </form>
+
+  <table mat-table [dataSource]="todos" class="mat-elevation-z8">
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox [(ngModel)]="element.completed" (change)="updateTodo(element)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+   
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="completed">
+      <th mat-header-cell *matHeaderCellDef> Completed </th>
+      <td mat-cell *matCellDef="let element">{{element.completed}} </td>
+    </ng-container>
+  
+ 
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Created At </th>
+      <td mat-cell *matCellDef="let element"> {{element.createdAt | date}} </td>
+    </ng-container>
+
+<ng-container matColumnDef="actions">
+  <th mat-header-cell *matHeaderCellDef> Actions </th>
+  <td mat-cell *matCellDef="let element">
+    <button mat-icon-button (click)="openEditDialog(element)" >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteTodo(element.id)" >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </td>
+</ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+  </table>
+</div>
